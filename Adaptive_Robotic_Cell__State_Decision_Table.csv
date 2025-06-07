@@ -1,0 +1,8 @@
+State,Trigger,Condition,Action,Next State
+Idle,Start Button + Part Detected,"Pressure ≤ 4.5, No Lockout, No Fault",Enter State 1 (Arm Extend),State 1
+State 1 (Arm Extend),Head Target Found,"Sensor OK, No Lockout","Activate Motor 1, Start Timer",State 2 (Grip)
+State 2 (Grip),Arm Fully Extended,"Sensor OK, No Lockout","Activate Gripper, Start Timer",State 3 (Retract)
+State 3 (Retract),Gripper Fully Closed,"Sensor OK, No Lockout","Activate Motor 2, Start Timer",State 4 (Cycle Complete)
+State 4 (Cycle Complete),Arm Fully Retracted,Loop Mode = OFF,"Pulse Cycle Complete, Reset State",State 0 (Idle)
+Any,Timeout / Fault Condition,"Retry Bit Set, Retry Not Locked",Retry with Extended Timeout,Previous
+Any,All Faults ≥ 5 AND Auto Shutdown ON,B3:7/4 & B3:7/3 High,Set System Shutdown,Idle + Fault State
